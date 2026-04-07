@@ -1,0 +1,18 @@
+[package]
+name = "arbhx-sync"
+version = "0.3.0"
+edition = "2024"
+license = "MIT or Apache-2.0"
+description = "The sync layer for Arbhx."
+homepage = "https://ericg2.github.io/"
+repository = "https://github.com/ericg2/arbhx-core"
+readme = "README.md"
+categories = ["filesystem"]
+keywords = ["vfs", "blocking"]
+
+[dependencies]
+arbhx-core = { version = "0.3.0", features = ["blocking"] }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "io-util"] }
+futures-lite = "2.6.1"
+chrono = "0.4.44"
+uuid = "1.23.0"
