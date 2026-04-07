@@ -11,7 +11,7 @@ categories = ["filesystem"]
 keywords = ["vfs", "blocking"]
 
 [dependencies]
-arbhx-core = { version = "0.3.0", features = ["blocking"] }
+arbhx-core = { version = "=0.3.0", features = ["blocking"] }
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "io-util"] }
 futures-lite = "2.6.1"
 chrono = "0.4.44"
