@@ -1,6 +1,6 @@
 use crate::read::VfsReaderSync;
 use crate::write::VfsWriterSync;
-use arbhx_core::blocking::{VfsBackendCompat, VfsReaderCompat, VfsWriterCompat};
+use arbhx_core::blocking::{VfsBackendCompat, VfsFullCompat, VfsReaderCompat, VfsWriterCompat};
 use arbhx_core::{DataUsage, VfsBackend};
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -50,6 +50,10 @@ impl VfsBackendCompat for VfsBackendSync {
             }
             None => None,
         }
+    }
+
+    fn full(self: Arc<Self>) -> Option<Arc<dyn VfsFullCompat>> {
+        todo!()
     }
 
     fn get_usage(&self) -> std::io::Result<Option<DataUsage>> {
