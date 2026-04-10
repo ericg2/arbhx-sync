@@ -21,7 +21,7 @@ use tokio::runtime::Handle;
 use uuid::Uuid;
 
 #[derive(Debug, Clone)]
-pub struct VfsSyncInner {
+pub struct VfsCompat {
     be: Arc<dyn VfsBackend>,
     reader: Option<Arc<dyn VfsReader>>,
     writer: Option<Arc<dyn VfsWriter>>,
@@ -30,7 +30,7 @@ pub struct VfsSyncInner {
     rt: Handle,
 }
 
-impl VfsSyncInner {
+impl VfsCompat {
     fn reader(&self) -> io::Result<&Arc<dyn VfsReader>> {
         self.reader.as_ref().ok_or(ErrorKind::Unsupported.into())
     }
@@ -57,7 +57,7 @@ impl VfsSyncInner {
     }
 }
 
-impl VfsReaderCompat for VfsSyncInner {
+impl VfsReaderCompat for VfsCompat {
     fn open_read_start(&self, item: &Path) -> io::Result<Box<dyn DataReadCompat>> {
         let handle = self.rt.block_on(self.reader()?.open_read_start(item))?;
         let ret = VfsReadSync::new(self.rt.clone(), handle);
@@ -89,7 +89,7 @@ impl VfsReaderCompat for VfsSyncInner {
     }
 }
 
-impl VfsWriterCompat for VfsSyncInner {
+impl VfsWriterCompat for VfsCompat {
     fn remove_dir(&self, path: &Path) -> io::Result<()> {
         self.rt.block_on(self.writer()?.remove_dir(path))
     }
@@ -133,7 +133,7 @@ impl VfsWriterCompat for VfsSyncInner {
     }
 }
 
-impl VfsSeekWriterCompat for VfsSyncInner {
+impl VfsSeekWriterCompat for VfsCompat {
     fn open_write_seek(&self, path: &Path) -> io::Result<Box<dyn DataWriteSeekCompat>> {
         let handle = self
             .rt
@@ -143,7 +143,7 @@ impl VfsSeekWriterCompat for VfsSyncInner {
     }
 }
 
-impl VfsFullCompat for VfsSyncInner {
+impl VfsFullCompat for VfsCompat {
     fn open_full_seek(&self, path: &Path) -> io::Result<Box<dyn DataFullCompat>> {
         let handle = self.rt.block_on(self.full()?.open_full_seek(path))?;
         let ret = VfsFullSeekSync::new(self.rt.clone(), handle);
@@ -151,7 +151,7 @@ impl VfsFullCompat for VfsSyncInner {
     }
 }
 
-impl VfsBackendCompat for VfsSyncInner {
+impl VfsBackendCompat for VfsCompat {
     fn id(&self) -> Uuid {
         self.be.id()
     }

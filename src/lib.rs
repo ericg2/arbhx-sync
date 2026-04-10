@@ -6,4 +6,4 @@ mod data_write_seek;
 mod be;
 mod data_full;
 
-pub use be::VfsSyncInner;
+pub use be::VfsCompat;
