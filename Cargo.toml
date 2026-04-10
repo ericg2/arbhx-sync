@@ -1,6 +1,6 @@
 [package]
 name = "arbhx-sync"
-version = "2.0.0"
+version = "3.0.0"
 edition = "2024"
 license = "MIT or Apache-2.0"
 description = "The sync layer for Arbhx."
@@ -11,7 +11,7 @@ categories = ["filesystem"]
 keywords = ["vfs", "blocking"]
 
 [dependencies]
-arbhx-core = { version = "2", features = ["blocking"] }
+arbhx-core = { version = "3", features = ["blocking"] }
 tokio = { version = "1", features = ["rt", "rt-multi-thread", "io-util"] }
 futures-lite = "2.6.1"
 chrono = "0.4.44"
